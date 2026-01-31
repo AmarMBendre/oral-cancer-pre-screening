@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card" style="border-top: 5px solid #27ae60;">
+        <div class="auth-header">
+            <h2 style="color: #27ae60;">Doctor Login</h2>
+            <p>Secure Portal for Medical Professionals</p>
+        </div>
+
+        <form action="{{ url_for('login_doctor') }}" method="POST">
+            <div class="form-group">
+                <label for="username">Medical ID / Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn-primary btn-block" style="background-color: #27ae60;">Login as
+                Doctor</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>New Specialist? <a href="{{ url_for('register_doctor') }}">Register Panel</a></p>
+            <p>Not a doctor? <a href="{{ url_for('login_patient') }}">Go to Patient Login</a></p>
+            <p class="demo-credits">Doctor Demo: <strong>doctor1</strong> / admin</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

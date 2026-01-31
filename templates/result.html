@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Screening Result{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <!-- CRITICAL DISCLAIMER BANNER -->
+    <div class="disclaimer-banner">
+        <h3>⚠️ IMPORTANT MEDICAL DISCLAIMER</h3>
+        <p><strong>This is an AI-based PRE-SCREENING tool, NOT a medical diagnosis.</strong></p>
+        <p>Final diagnosis MUST be made by a qualified doctor through clinical examination and, if needed, biopsy.</p>
+        <p>Use this result ONLY as a supplementary screening aid.</p>
+    </div>
+
+    <div class="result-header">
+        <h2>AI Screening Result</h2>
+        <p>Patient: <strong>{{ screening.patient_name }}</strong> | Age: {{ screening.patient_age }} | Date: {{
+            screening.screened_at.strftime('%Y-%m-%d %H:%M') }}</p>
+    </div>
+
+    <div class="result-grid">
+        <!-- Left: Image -->
+        <div class="result-image-card">
+            <h4>Oral Cavity Image</h4>
+            <img src="/{{ screening.image_path.replace('\\', '/') }}" alt="Oral Lesion" class="scan-img">
+        </div>
+
+        <!-- Right: AI Analysis -->
+        <div class="result-analysis-card risk-{{ screening.ai_risk_level.lower().replace(' ', '-') }}">
+            <h3>AI Risk Assessment</h3>
+            <div class="risk-level-display">
+                {{ screening.ai_risk_level }}
+            </div>
+
+            <div class="risk-score-container mt-20">
+                <div class="score-label">Composite Risk Score: <strong>{{ screening.composite_risk_score }}/100</strong>
+                </div>
+                <div class="score-bar-bg">
+                    <div class="score-bar-fill" style="width: {{ screening.composite_risk_score }}%;"></div>
+                </div>
+                <small class="score-help">Combined AI Analysis + Patient Risk Factors</small>
+            </div>
+
+            <div class="confidence-display mt-20">
+                AI Recognition Confidence: <strong>{{ screening.ai_confidence }}%</strong>
+            </div>
+
+            {% if screening.ai_risk_level == 'High Risk' %}
+            <div class="alert alert-danger mt-20">
+                <strong>⚠️ HIGH RISK DETECTED</strong><br>
+                Refer patient to doctor IMMEDIATELY for clinical examination and possible biopsy.
+            </div>
+            {% elif screening.ai_risk_level == 'Moderate Risk' %}
+            <div class="alert alert-warning mt-20">
+                <strong>⚠️ MODERATE RISK</strong><br>
+                Clinical evaluation recommended. Monitor closely.
+            </div>
+            {% else %}
+            <div class="alert alert-success mt-20">
+                <strong>✓ LOW RISK</strong><br>
+                Routine follow-up recommended. Educate patient on oral hygiene.
+            </div>
+            {% endif %}
+
+            <div class="model-info">
+                <small>Model Architecture: PyTorch MobileNetV2 | Version: 2.0</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clinical Details -->
+    <div class="card mt-20">
+        <h3>Clinical Details</h3>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <strong>Tobacco Use:</strong> {{ screening.tobacco_use }}
+            </div>
+            <div class="detail-item">
+                <strong>Betel Nut:</strong> {{ screening.betel_nut }}
+            </div>
+            <div class="detail-item">
+                <strong>Pain Level:</strong> {{ screening.pain_level }}/10
+            </div>
+            <div class="detail-item">
+                <strong>Duration:</strong> {{ screening.symptom_duration }}
+            </div>
+            <div class="detail-item">
+                <strong>Location:</strong> {{ screening.lesion_location }}
+            </div>
+            <div class="detail-item">
+                <strong>Facility:</strong> {{ screening.facility }}
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Health Education & Awareness (NEW FEATURE) -->
+    {% if screening.health_education %}
+    <div class="card mt-20" style="border-left: 4px solid #10b981;">
+        <h3>🎓 AI Health Education & Awareness</h3>
+        <div style="background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 10px;">
+            <p style="line-height: 1.8; color: #374151; margin: 0;">
+                {{ screening.health_education }}
+            </p>
+        </div>
+        <div class="alert alert-info mt-20" style="border-left: 4px solid #fbbf24;">
+            <strong>⚠️ EDUCATIONAL DISCLAIMER:</strong><br>
+            This information is generated for educational and awareness purposes only.
+            It does <strong>NOT</strong> constitute medical advice, diagnosis, or treatment.
+            Please consult a qualified healthcare professional for clinical evaluation.
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Actions -->
+    <div class="result-actions">
+        <a href="{{ url_for('dashboard') }}" class="btn-primary">Back to Dashboard</a>
+        <a href="{{ url_for('new_screening') }}" class="btn-secondary">New Screening</a>
+        <a href="{{ url_for('download_report', id=screening._id) }}" class="btn-secondary"
+            style="background: #10b981;">📄 Download PDF Report</a>
+        <button onclick="window.print()" class="btn-secondary">Print Result</button>
+    </div>
+
+    <!-- Bottom Disclaimer -->
+    <div class="disclaimer-footer">
+        <p><strong>Remember:</strong> This AI screening is NOT a substitute for professional medical advice, diagnosis,
+            or treatment. Always seek the advice of your physician or other qualified health provider with any questions
+            you may have regarding a medical condition.</p>
+        <p><em>Academic Research Project • Not approved as a medical device</em></p>
+    </div>
+</div>
+{% endblock %}

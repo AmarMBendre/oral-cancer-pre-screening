@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="review-container">
+    <h2>Case Review: {{ patient_name }}</h2>
+
+    <div class="review-layout">
+        <div class="image-panel">
+            <img src="/{{ screening.image_path.replace('\\', '/') }}" alt="Patient Scan"
+                style="max-width: 100%; border-radius: 8px;">
+        </div>
+
+        <div class="clinical-panel">
+            <h3>Clinical Metadata</h3>
+            <ul>
+                <li><strong>Pain Level:</strong> {{ screening.pain_level }}/10</li>
+                <li><strong>Duration:</strong> {{ screening.duration }}</li>
+                <li><strong>History:</strong> {{ screening.history }}</li>
+            </ul>
+
+            <h3>AI Analysis</h3>
+            <p>Result: <strong>{{ screening.prediction_label }}</strong> ({{ "%.1f"|format(screening.confidence_score *
+                100) }}%)</p>
+
+            <hr>
+
+            <h3>Doctor's Assessment</h3>
+            <form action="{{ url_for('review_case', id=screening._id) }}" method="POST">
+                <div class="form-group">
+                    <label>Medical Notes / Diagnosis</label>
+                    <textarea name="doctor_comments" class="form-control" rows="4"
+                        required>{{ screening.doctor_comments or '' }}</textarea>
+                </div>
+                <button type="submit" class="btn-primary">Submit Review & Notify Patient</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

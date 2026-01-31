@@ -1,0 +1,27 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# ML models & checkpoints
+*.pth
+checkpoint.pth
+
+# Datasets & generated outputs
+organized_dataset/
+draft/
+system_output_sample/
+training_performance_graphs/
+model_training_curves/
+risk_distribution_chart/
+
+# Logs & secrets
+*.log
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+

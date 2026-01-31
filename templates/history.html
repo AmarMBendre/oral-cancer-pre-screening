@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Screening History{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <div class="history-header">
+        <h2>Screening History</h2>
+        <a href="{{ url_for('new_screening') }}" class="btn-primary">+ New Screening</a>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+        <form method="GET" action="{{ url_for('screening_history') }}" class="filter-form">
+            <div class="filter-group">
+                <label>Risk Level Filter:</label>
+                <select name="risk" class="form-control" onchange="this.form.submit()">
+                    <option value="all" {% if risk_filter=='all' %}selected{% endif %}>All Levels</option>
+                    <option value="High Risk" {% if risk_filter=='High Risk' %}selected{% endif %}>High Risk Only
+                    </option>
+                    <option value="Moderate Risk" {% if risk_filter=='Moderate Risk' %}selected{% endif %}>Moderate Risk
+                        Only</option>
+                    <option value="Low Risk" {% if risk_filter=='Low Risk' %}selected{% endif %}>Low Risk Only</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Search:</label>
+                <input type="text" name="search" class="form-control" placeholder="Patient name or mobile"
+                    value="{{ search_query }}">
+                <button type="submit" class="btn-secondary">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- History Table -->
+    <div class="card">
+        {% if screenings %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Mobile</th>
+                    <th>Lesion Location</th>
+                    <th>AI Risk Level</th>
+                    <th>Confidence</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for screening in screenings %}
+                <tr>
+                    <td>{{ screening.screened_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ screening.patient_name }}</td>
+                    <td>{{ screening.patient_age }}</td>
+                    <td>{{ screening.patient_mobile if screening.patient_mobile else '-' }}</td>
+                    <td>{{ screening.lesion_location }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{{ 'danger' if screening.ai_risk_level == 'High Risk' else ('warning' if screening.ai_risk_level == 'Moderate Risk' else 'success') }}">
+                            {{ screening.ai_risk_level }}
+                        </span>
+                    </td>
+                    <td>{{ "%.1f"|format(screening.ai_confidence) }}%</td>
+                    <td>
+                        <a href="{{ url_for('view_result', id=screening._id) }}" class="btn-small">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="table-footer">
+            <p>Total Records: <strong>{{ screenings|length }}</strong></p>
+        </div>
+        {% else %}
+        <p class="empty-state">No screening records found matching your filters.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

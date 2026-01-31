@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}New Patient Screening{% endblock %}
+
+{% block content %}
+<div class="screening-container">
+    <div class="screening-header">
+        <h2>New Patient Screening</h2>
+        <p>Enter patient details and upload oral cavity image for AI analysis</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('new_screening') }}" enctype="multipart/form-data">
+        <div class="form-section">
+            <h3>Patient Information</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="patient_name">Patient Name *</label>
+                    <input type="text" name="patient_name" class="form-control" required placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="patient_age">Age *</label>
+                    <input type="number" name="patient_age" class="form-control" required min="1" max="120"
+                        placeholder="Years">
+                </div>
+                <div class="form-group">
+                    <label for="patient_mobile">Mobile Number (Optional)</label>
+                    <input type="tel" name="patient_mobile" class="form-control" placeholder="10-digit number">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Risk Factors</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tobacco_use">Tobacco Use</label>
+                    <select name="tobacco_use" class="form-control">
+                        <option value="No">No</option>
+                        <option value="Yes - < 5 years">Yes - < 5 years</option>
+                        <option value="Yes - 5-10 years">Yes - 5-10 years</option>
+                        <option value="Yes - > 10 years">Yes - > 10 years</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="betel_nut">Betel Nut / Pan Chewing</label>
+                    <select name="betel_nut" class="form-control">
+                        <option value="No">No</option>
+                        <option value="Occasional">Occasional</option>
+                        <option value="Daily">Daily</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Clinical Presentation</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="pain_level">Pain Level (1-10) *</label>
+                    <input type="range" name="pain_level" min="1" max="10" value="5" class="form-range" id="painSlider"
+                        oninput="document.getElementById('painValue').textContent = this.value">
+                    <div class="range-value">Level: <strong id="painValue">5</strong></div>
+                </div>
+                <div class="form-group">
+                    <label for="symptom_duration">Symptom Duration *</label>
+                    <input type="text" name="symptom_duration" class="form-control" required
+                        placeholder="e.g., 2 weeks, 1 month">
+                </div>
+                <div class="form-group">
+                    <label for="lesion_location">Lesion Location *</label>
+                    <select name="lesion_location" class="form-control" required>
+                        <option value="">Select location...</option>
+                        <option value="Tongue">Tongue</option>
+                        <option value="Buccal Mucosa">Buccal Mucosa (Cheek)</option>
+                        <option value="Floor of Mouth">Floor of Mouth</option>
+                        <option value="Hard Palate">Hard Palate</option>
+                        <option value="Soft Palate">Soft Palate</option>
+                        <option value="Gingiva">Gingiva (Gums)</option>
+                        <option value="Lip">Lip</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Lesion Image Upload *</h3>
+            <div class="form-group">
+                <label for="lesion_image">Upload Oral Cavity Image</label>
+                <input type="file" name="lesion_image" class="form-control-file" required accept="image/*">
+                <small class="form-text">Supported formats: JPG, PNG, JPEG. Max size: 16MB</small>
+                <div class="image-guidelines">
+                    <strong>Image Capture Guidelines:</strong>
+                    <ul>
+                        <li>Use good lighting for clear visibility</li>
+                        <li>Focus on the lesion/suspicious area</li>
+                        <li>Avoid blurry or dark images</li>
+                        <li>Ensure patient consent before capturing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Run AI Analysis</button>
+            <a href="{{ url_for('dashboard') }}" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Real-time pain level display
+    document.getElementById('painSlider').addEventListener('input', function () {
+        document.getElementById('painValue').textContent = this.value;
+    });
+</script>
+{% endblock %}

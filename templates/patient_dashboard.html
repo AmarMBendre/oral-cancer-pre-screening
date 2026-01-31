@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Patient Dashboard</h2>
+    <a href="{{ url_for('new_screening') }}" class="btn-primary">+ New Screening Test</a>
+</div>
+
+<div class="card">
+    <h3>Your Screening History</h3>
+    {% if screenings %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Result</th>
+                <th>Confidence</th>
+                <th>Doctor Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scan in screenings %}
+            <tr>
+                <td>{{ scan.timestamp }}</td>
+                <td>
+                    <span
+                        class="badge {{ 'badge-danger' if scan.prediction_label == 'High Risk' else 'badge-success' }}">
+                        {{ scan.prediction_label }}
+                    </span>
+                </td>
+                <td>{{ "%.1f"|format(scan.confidence_score * 100) }}%</td>
+                <td>
+                    {% if scan.is_reviewed %}
+                    <span class="text-success">Reviewed</span>
+                    {% else %}
+                    <span class="text-warning">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('view_result', id=scan._id) }}" class="btn-small">View Report</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">You have no screening records yet. Start a new test.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Operator Registration{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="login-header">
+            <h2>Operator Registration</h2>
+            <p>Create a new healthcare operator account</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" class="form-control"
+                    placeholder="e.g. Dr. Jane Smith or Nurse John" required>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control"
+                    placeholder="Choose a unique username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="facility_name">Healthcare Facility / Clinic Name</label>
+                <input type="text" id="facility_name" name="facility_name" class="form-control"
+                    placeholder="e.g. City General Hospital" required>
+            </div>
+
+            <div class="form-group">
+                <label for="designation">Designation</label>
+                <select name="designation" id="designation" class="form-control" required>
+                    <option value="Operator">Healthcare Operator</option>
+                    <option value="Nurse">Staff Nurse</option>
+                    <option value="Dentist">Dental Assistant / Intern</option>
+                    <option value="Medical Student">Medical Student</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary btn-block">Register Account</button>
+        </form>
+
+        <div class="login-footer">
+            <p class="disclaimer-text">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+            <hr>
+            <p class="disclaimer-text">This system is for authorized healthcare personnel use only.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

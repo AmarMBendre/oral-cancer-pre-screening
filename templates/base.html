@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Oral Cancer Pre-Screening System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    {% if 'operator_id' in session %}
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>ORAL AI SCREENING</h1>
+                <span class="facility-badge">{{ session.facility }}</span>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('new_screening') }}">+ New Screening</a>
+                <a href="{{ url_for('screening_history') }}">History</a>
+                <a href="{{ url_for('statistics') }}">Statistics</a>
+            </div>
+            <div class="nav-user">
+                <span class="operator-name">{{ session.operator_name }}</span>
+                <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>⚠️ AI-Based Pre-Screening Tool • NOT a Medical Diagnosis • Academic Research Project</p>
+        <p style="font-size: 0.8em;">This system provides screening assistance only. Final diagnosis MUST be made by a
+            qualified doctor. <a href="{{ url_for('ethics') }}"
+                style="color: #10b981; text-decoration: underline;">Medical Ethics & Safety</a></p>
+    </footer>
+</body>
+
+</html>

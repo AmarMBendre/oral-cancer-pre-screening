@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics Dashboard{% endblock %}
+
+{% block content %}
+<div class="statistics-container">
+    <div class="statistics-header">
+        <h2> Analytics Dashboard</h2>
+        <p>Screening Performance Overview</p>
+    </div>
+
+    <!-- Overall Stats -->
+    <div class="stats-grid">
+        <div class="stat-card stat-highlight">
+            <h3>Total Screenings</h3>
+            <div class="stat-number">{{ total_screenings }}</div>
+        </div>
+        <div class="stat-card stat-high-risk">
+            <h3>High Risk</h3>
+            <div class="stat-number">{{ high_risk_count }}</div>
+            <div class="stat-percentage">{{ high_risk_pct }}%</div>
+        </div>
+        <div class="stat-card stat-moderate-risk">
+            <h3>Moderate Risk</h3>
+            <div class="stat-number">{{ moderate_risk_count }}</div>
+            <div class="stat-percentage">{{ moderate_risk_pct }}%</div>
+        </div>
+        <div class="stat-card stat-low-risk">
+            <h3>Low Risk</h3>
+            <div class="stat-number">{{ low_risk_count }}</div>
+            <div class="stat-percentage">{{ low_risk_pct }}%</div>
+        </div>
+    </div>
+
+    <!-- Risk Distribution Chart -->
+    <div class="card mt-20">
+        <h3>Risk Distribution</h3>
+        <div class="chart-container">
+            <div class="bar-chart">
+                <div class="bar-item" style="width: {{ high_risk_pct }}%; background: #dc3545;">
+                    <span class="bar-label">High Risk ({{ high_risk_pct }}%)</span>
+                </div>
+                <div class="bar-item" style="width: {{ moderate_risk_pct }}%; background: #ffc107;">
+                    <span class="bar-label">Moderate ({{ moderate_risk_pct }}%)</span>
+                </div>
+                <div class="bar-item" style="width: {{ low_risk_pct }}%; background: #28a745;">
+                    <span class="bar-label">Low Risk ({{ low_risk_pct }}%)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insights -->
+    <div class="card mt-20">
+        <h3>Clinical Insights</h3>
+        <div class="insights-grid">
+            <div class="insight-item">
+                <h4>High Risk Cases</h4>
+                <p>{{ high_risk_count }} patient(s) require immediate clinical follow-up and possible biopsy referral.
+                </p>
+            </div>
+            <div class="insight-item">
+                <h4>Screening Volume</h4>
+                <p>Total of {{ total_screenings }} screening(s) performed at {{ session.facility }}.</p>
+            </div>
+            <div class="insight-item">
+                <h4>AI Performance</h4>
+                <p>System provides risk assessment to assist clinical decision-making. All high-risk cases should be
+                    validated by doctor examination.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Usage Note -->
+    <div class="alert alert-info mt-20">
+        <strong>Research Note:</strong> This anonymized data can be exported for clinical research and AI model
+        improvement.
+        Ensure patient consent before using data for research purposes.
+    </div>
+
+    <div class="statistics-actions">
+        <a href="{{ url_for('dashboard') }}" class="btn-secondary">Back to Dashboard</a>
+        <a href="{{ url_for('screening_history') }}" class="btn-primary">View Detailed History</a>
+    </div>
+</div>
+
+<style>
+    .bar-chart {
+        margin: 20px 0;
+    }
+
+    .bar-item {
+        height: 40px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .insights-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .insight-item {
+        padding: 15px;
+        background: #f8f9fa;
+        border-left: 4px solid #007bff;
+        border-radius: 4px;
+    }
+
+    .insight-item h4 {
+        margin-top: 0;
+        color: #007bff;
+    }
+</style>
+{% endblock %}

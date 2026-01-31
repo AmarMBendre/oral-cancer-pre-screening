@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Operator Login - Oral Cancer Screening{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="login-header">
+            <h2>🏥 Healthcare Operator Login</h2>
+            <p>Oral Cancer Pre-Screening System</p>
+            <p class="facility-subtitle">For Healthcare Facilities • OPD • Screening Camps</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username">Operator Username</label>
+                <input type="text" name="username" class="form-control" required autofocus placeholder="operator1">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" required placeholder="Enter password">
+            </div>
+
+            <button type="submit" class="btn-primary btn-block">Login to System</button>
+        </form>
+
+        <div class="login-footer">
+            <p class="disclaimer-text">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+           
+            <p class="disclaimer-text mt-20">
+                ⚠️ This system is for healthcare professional use only.<br>
+                Not intended for patient self-diagnosis.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

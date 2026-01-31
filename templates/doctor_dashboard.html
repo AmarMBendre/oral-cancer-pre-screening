@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Doctor Dashboard - Triage View</h2>
+</div>
+
+<div class="card">
+    <h3>High Risk / Pending Cases</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Time</th>
+                <th>AI Prediction</th>
+                <th>Review Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for case in cases %}
+            <tr class="{{ 'highlight-row' if case.prediction_label == 'High Risk' }}">
+                <td>{{ case.username }}</td> <!-- Joined from users table -->
+                <td>{{ case.timestamp }}</td>
+                <td>
+                    <strong class="{{ 'text-danger' if case.prediction_label == 'High Risk' else 'text-success' }}">
+                        {{ case.prediction_label }}
+                    </strong>
+                </td>
+                <td>{{ "Reviewed" if case.is_reviewed else "Pending" }}</td>
+                <td>
+                    <a href="{{ url_for('review_case', id=case._id) }}" class="btn-small btn-primary">Review Case</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">No pending high-risk cases.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

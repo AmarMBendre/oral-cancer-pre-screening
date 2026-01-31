@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Medical Ethics & Safety - Oral Cancer Pre-Screening System{% endblock %}
+
+{% block content %}
+<div class="ethics-container" style="max-width: 900px; margin: 0 auto;">
+    <div class="ethics-header">
+        <h2>🛡️ Medical Ethics, Safety & Compliance</h2>
+        <p style="color: #666; font-size: 1.1em;">Understanding the Responsible Use of AI in Healthcare Screening</p>
+    </div>
+
+    <!-- Intended Use -->
+    <div class="card mt-20">
+        <h3>1. Intended Use & Scope</h3>
+        <div class="alert alert-info">
+            <strong>PRE-SCREENING TOOL ONLY</strong>
+        </div>
+        <p>This system is designed as a <strong>triage and pre-screening aid</strong> for use in:</p>
+        <ul>
+            <li>✅ Hospital Out-Patient Departments (OPDs)</li>
+            <li>✅ Government-organized screening camps</li>
+            <li>✅ Medical college research facilities</li>
+        </ul>
+        <p><strong>NOT intended for:</strong></p>
+        <ul>
+            <li>❌ Direct patient self-diagnosis</li>
+            <li>❌ Telemedicine or remote consultation</li>
+            <li>❌ Replacement of clinical examination or biopsy</li>
+        </ul>
+    </div>
+
+    <!-- AI as Assistive Tool -->
+    <div class="card mt-20">
+        <h3>2. AI as Decision Support, Not Decision Maker</h3>
+        <p>The AI model provides <strong>risk probability estimates</strong>, not clinical diagnoses. The system:</p>
+        <ul>
+            <li>Combines image analysis with clinical risk factors (tobacco use, age, symptoms)</li>
+            <li>Outputs a <strong>composite risk score</strong> (Low / Moderate / High)</li>
+            <li>Acts as a "second opinion" to help operators prioritize cases</li>
+        </ul>
+        <div class="alert alert-warning mt-10">
+            <strong>⚠️ Critical Limitation:</strong> AI models can produce false positives and false negatives. A
+            qualified doctor MUST perform the final diagnosis through clinical examination and, if necessary, biopsy.
+        </div>
+    </div>
+
+    <!-- Operator-Assisted Usage -->
+    <div class="card mt-20">
+        <h3>3. Human-in-the-Loop Requirement</h3>
+        <p>This system is designed for <strong>operator-assisted</strong> usage:</p>
+        <ul>
+            <li><strong>Trained Healthcare Staff:</strong> Operated by nurses, dental assistants, or interns under
+                supervision</li>
+            <li><strong>Professional Context:</strong> Used within a clinical environment with medical oversight</li>
+            <li><strong>Accountability:</strong> Each screening is linked to the operator who performed it</li>
+        </ul>
+        <p>The system does NOT replace the expertise of a healthcare professional — it <strong>augments</strong> their
+            workflow.</p>
+    </div>
+
+    <!-- Data Privacy -->
+    <div class="card mt-20">
+        <h3>4. Data Privacy & Patient Anonymization</h3>
+        <p><strong>Privacy-by-Design Principles:</strong></p>
+        <ul>
+            <li><strong>Local Data Storage:</strong> All patient data is stored in a local MongoDB database, not in the
+                cloud</li>
+            <li><strong>Operator Isolation:</strong> Each operator can only access screening records they created</li>
+            <li><strong>Anonymized Reports:</strong> PDF reports use anonymized patient IDs (e.g., PAT-A1B2C3D4) instead
+                of full names</li>
+            <li><strong>No External Sharing:</strong> Patient images and clinical data are NOT transmitted to external
+                servers</li>
+        </ul>
+        <div class="alert alert-success mt-10">
+            <strong>✓ Compliance:</strong> This design aligns with healthcare data protection principles, though this is
+            an academic prototype and NOT certified for production medical use.
+        </div>
+    </div>
+
+    <!-- Limitations -->
+    <div class="card mt-20">
+        <h3>5. System Limitations & Known Risks</h3>
+        <div class="alert alert-danger">
+            <strong>IMPORTANT: Recognize These Limitations</strong>
+        </div>
+        <ul>
+            <li><strong>False Negatives:</strong> The system may miss early-stage lesions or subtle abnormalities</li>
+            <li><strong>False Positives:</strong> Benign conditions may be flagged as high-risk, causing unnecessary
+                anxiety</li>
+            <li><strong>Image Quality Dependency:</strong> Poor lighting, blur, or incorrect angle can reduce accuracy
+            </li>
+            <li><strong>Population Bias:</strong> The model is trained on a specific dataset which may not represent all
+                demographics</li>
+            <li><strong>Not a Biopsy Replacement:</strong> Only histopathological examination (biopsy) can confirm
+                cancer</li>
+        </ul>
+    </div>
+
+    <!-- Regulatory Status -->
+    <div class="card mt-20">
+        <h3>6. Regulatory & Certification Status</h3>
+        <div class="alert alert-info">
+            <strong>Academic Research Prototype</strong>
+        </div>
+       
+        <ul>
+            <li>❌ NOT approved as a "Software as a Medical Device" (SaMD)</li>
+            <li>❌ NOT certified by any medical regulatory authority (FDA, CDSCO, CE, etc.)</li>
+            <li>❌ NOT intended for commercial deployment without proper clinical trials and regulatory approval</li>
+        </ul>
+        <p>If this system were to be used in a real-world clinical setting, it would require:</p>
+        <ul>
+            <li>Rigorous clinical validation studies</li>
+            <li>Ethical review board approval</li>
+            <li>Compliance with medical device regulations</li>
+            <li>Regular audits and performance monitoring</li>
+        </ul>
+    </div>
+
+    <!-- Ethical AI Usage -->
+    <div class="card mt-20">
+        <h3>7. Ethical AI Principles</h3>
+        <p>This project is guided by established AI ethics frameworks:</p>
+        <ul>
+            <li><strong>Transparency:</strong> The system clearly states when AI is being used and how predictions are
+                made</li>
+            <li><strong>Explainability:</strong> Risk scores are based on interpretable factors (clinical history +
+                image analysis)</li>
+            <li><strong>Human Oversight:</strong> All AI predictions are explicitly labeled as "pre-screening" and
+                require medical validation</li>
+            <li><strong>Non-Maleficence:</strong> The system includes fail-safes (disclaimers, mandatory referral
+                prompts) to prevent misuse</li>
+            <li><strong>Fairness:</strong> Efforts were made during training to use diverse datasets, though biases may
+                still exist</li>
+        </ul>
+    </div>
+
+    <!-- Actions -->
+    <div class="result-actions mt-20">
+        <a href="{{ url_for('dashboard') }}" class="btn-primary">Return to Dashboard</a>
+    </div>
+
+    <!-- Footer Disclaimer -->
+    <div class="disclaimer-footer mt-20" style="border-top: 2px solid #ddd; padding-top: 20px;">
+        <p style="font-size: 0.9em; color: #666;">
+            <strong>Disclaimer:</strong> This documentation is for academic and educational purposes.
+            Always consult qualified medical professionals for health-related decisions.
+            The developers of this system assume no liability for misuse or misinterpretation of AI predictions.
+        </p>
+        <p style="font-size: 0.85em; color: #999; font-style: italic;">
+            Last Updated: January 2026 | Academic Research Project |
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="welcome-hero">
+    <h1>AI-Based Oral Lesion Screening</h1>
+    <p class="subtitle">Early Detection Saves Lives. Powered by Deep Learning.</p>
+
+    <div class="hero-actions">
+        <a href="{{ url_for('login_patient') }}" class="btn-hero">I am a Patient</a>
+        <a href="{{ url_for('login_doctor') }}" class="btn-hero" style="background:#2ecc71; color:white;">I am a
+            Doctor</a>
+    </div>
+</div>
+
+<div class="project-info">
+    <div class="info-card">
+        <h3>The Problem</h3>
+        <p>Oral cancer is one of the most common cancers globally. Late detection leads to poor survival rates.</p>
+    </div>
+    <div class="info-card">
+        <h3>Our Solution</h3>
+        <p>A Convolutional Neural Network (CNN) trained on over 5000 clinical images to detect potential lesions
+            instantly.</p>
+    </div>
+    <div class="info-card">
+        <h3>Telemedicine</h3>
+        <p>Connects patients with doctors remotely. AI provides the initial triage, doctors provide the diagnosis.</p>
+    </div>
+</div>
+{% endblock %}

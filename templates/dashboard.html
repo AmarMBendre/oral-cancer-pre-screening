@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Operator Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2>Operator Dashboard</h2>
+        <a href="{{ url_for('new_screening') }}" class="btn-primary">+ New Patient Screening</a>
+    </div>
+
+    <!-- Today's Statistics -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Today's Screenings</h3>
+            <div class="stat-number">{{ total_today }}</div>
+        </div>
+        <div class="stat-card stat-high-risk">
+            <h3>High Risk Cases</h3>
+            <div class="stat-number">{{ high_risk_today }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>Facility</h3>
+            <div class="stat-text">{{ session.facility }}</div>
+        </div>
+    </div>
+
+    <!-- Recent Screenings -->
+    <div class="card">
+        <h3>Recent Screenings</h3>
+        {% if recent %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Date/Time</th>
+                    <th>AI Risk Level</th>
+                    <th>Confidence</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for screening in recent %}
+                <tr>
+                    <td>{{ screening.patient_name }}</td>
+                    <td>{{ screening.patient_age }}</td>
+                    <td>{{ screening.screened_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{{ 'danger' if screening.ai_risk_level == 'High Risk' else ('warning' if screening.ai_risk_level == 'Moderate Risk' else 'success') }}">
+                            {{ screening.ai_risk_level }}
+                        </span>
+                    </td>
+                    <td>{{ "%.1f"|format(screening.ai_confidence) }}%</td>
+                    <td>
+                        <a href="{{ url_for('view_result', id=screening._id) }}" class="btn-small">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty-state">No screenings performed yet today. Start a new screening above.</p>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="{{ url_for('screening_history') }}" class="action-link">View All Screenings</a>
+        <a href="{{ url_for('statistics') }}" class="action-link">Statistics Dashboard</a>
+    </div>
+</div>
+{% endblock %}

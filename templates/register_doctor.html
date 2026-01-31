@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card" style="border-top: 5px solid #27ae60;">
+        <div class="auth-header">
+            <h2 style="color: #27ae60;">Doctor Registration</h2>
+            <p>Join the Specialist Panel</p>
+        </div>
+
+        <form action="{{ url_for('register_doctor') }}" method="POST">
+            <div class="form-group">
+                <label for="fullname">Full Name (inc. Title)</label>
+                <input type="text" name="fullname" class="form-control" required placeholder="Dr. Jane Smith">
+            </div>
+
+            <div class="form-group">
+                <label for="username">Medical ID / Username</label>
+                <input type="text" name="username" class="form-control" required placeholder="DOC-2024-X">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" class="form-control" required>
+            </div>
+
+            <!-- SECURITY: Authorization Code Field -->
+            <div class="form-group"
+                style="background: #f0fff4; padding: 10px; border-radius: 5px; border: 1px dashed #27ae60;">
+                <label for="admin_code" style="color: #27ae60;"><strong>Registration Code</strong></label>
+                <input type="text" name="admin_code" class="form-control" required placeholder="REG-DOC-XXXXXXXXXXXX">
+                <small style="color: #666;">* Unique code provided by hospital admin. Single-use only.</small>
+            </div>
+
+            <button type="submit" class="btn-primary btn-block" style="background-color: #27ae60;">Register as
+                Doctor</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already registered? <a href="{{ url_for('login_doctor') }}">Doctor Login</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
