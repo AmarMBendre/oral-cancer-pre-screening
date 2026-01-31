@@ -100,37 +100,25 @@ except Exception as e:
 
 # ==================== GEMINI API SETUP ====================
 
-GEMINI_ENABLED = False  # Set to True after adding API key
+# ==================== GEMINI API SETUP ====================
+
+GEMINI_ENABLED = False
 
 try:
     from google import genai
     from google.genai import types
     import os
-    
-    # TODO: Add your Gemini API key to environment variable
-    # Get free API key from: https://aistudio.google.com/apikey
-    # GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
-    GEMINI_API_KEY='AIzaSyAYOtx0A7OfMyYXOfPKblduEd8o4SI1tAQ'
-    
-    if GEMINI_API_KEY:
+
+    # Read Gemini API key from environment variable
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+    if not GEMINI_API_KEY:
+        print("[INFO] GEMINI_API_KEY not found. Health education module disabled.", flush=True)
+    else:
         client = genai.Client(api_key=GEMINI_API_KEY)
         GEMINI_ENABLED = True
-        print("[OK] Gemini API (new library) initialized successfully", flush=True)
-        
-        # Test API with a simple call
-        try:
-            print("[TEST] Testing Gemini API with simple prompt...", flush=True)
-            test_response = client.models.generate_content(
-                model='gemini-3-flash-preview',
-                contents='Say hello in one word'
-            )
-            print(f"[TEST] Gemini API test successful! Response: {test_response.text}", flush=True)
-        except Exception as test_error:
-            print(f"[ERROR] Gemini API test failed: {test_error}", flush=True)
-            GEMINI_ENABLED = False
-    else:
-        print("[INFO] Gemini API key not found. Health education module disabled.", flush=True)
-        print("      Set GEMINI_API_KEY environment variable to enable this feature.", flush=True)
+        print("[OK] Gemini API initialized successfully", flush=True)
+
 except Exception as e:
     print(f"[WARNING] Gemini API initialization failed: {e}", flush=True)
     GEMINI_ENABLED = False
@@ -786,3 +774,4 @@ def internal_error(error):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
