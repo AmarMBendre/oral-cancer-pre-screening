@@ -1,27 +1,36 @@
-# Virtual environment
-.venv/
+# Oral Cancer Pre-Screening System
 
-# Python cache
-__pycache__/
-*.pyc
+AI-based operator-assisted oral cancer risk pre-screening system designed for OPD and screening camp workflows.
 
-# ML models & checkpoints
-*.pth
-checkpoint.pth
+## Tech Stack
+- Python (Flask)
+- CNN-based ML model
+- HTML, CSS, JavaScript
+- MongoDB
 
-# Datasets & generated outputs
-organized_dataset/
-draft/
-system_output_sample/
-training_performance_graphs/
-model_training_curves/
-risk_distribution_chart/
+## Setup Instructions
 
-# Logs & secrets
-*.log
-.env
+### 1. Clone Repository
+```bash
+git clone https://github.com/AmarMBendre/oral-cancer-pre-screening.git
+cd oral-cancer-pre-screening
+2. Create Virtual Environment
+python -m venv .venv
+.venv\Scripts\activate
+3. Install Dependencies
+pip install -r requirements
+4. Model File
+Download the trained model and place it inside:
 
-# OS files
-.DS_Store
-Thumbs.db
+oral_cancer/oral_cancer_model.pth
+5. Initialize Database (if required)
+python initialize_db.py
+python seed_mongo.py
+6. Run Application
+python app.py
+Open browser and visit:
+
+http://127.0.0.1:5000
+Note
+This system is intended for educational and pre-screening support purposes only. It does not provide medical diagnosis.
 
